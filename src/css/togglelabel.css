@@ -1,0 +1,98 @@
+/* Add application styles & imports to this file! */
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+body {
+  font-family: 'Antic Slab', serif;
+}
+hr {
+  width: 100%;
+}
+/*
+togglelabel styles copied and modified from
+https://codepen.io/mallendeo/pen/eLIiG
+by Mauricio Allende (https://mallendeo.com/)
+ */
+.togglelabel-btn {
+  display: inline-block;
+  outline: 0;
+  width: 7em;
+  height: 2em;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  background: #F5CB3B;
+  border-radius: 0.0em;
+  padding: 2px;
+  transition: all 0.4s ease;
+  border: 1px solid #e8eae9;
+}
+.togglelabel-btn:focus::after,
+.togglelabel-btn:active::after {
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1),
+    0 4px 0 rgba(0, 0, 0, 0.08),
+    inset 0px 0px 0px 1.5px #9c9c9c;
+}
+.togglelabel-btn::after {
+  left: 2%;
+  position: relative;
+  display: block;
+  content: '';
+  width: 25%;
+  height: 90%;
+  border-radius: 0.0em;
+  background: #FFFFFF;
+  transition: all 0.3s
+      cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    padding 0.3s ease, margin 0.3s ease;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1),
+    0 4px 0 rgba(0, 0, 0, 0.08);
+}
+.togglelabel-btn.togglelabel-btn-on::after {
+  left: 73%;
+}
+.togglelabel-btn.togglelabel-btn-on {
+  background: #5BC739;
+}
+.togglelabel-btn.togglelabel-btn-on:active {
+  box-shadow: none;
+}
+.togglelabel-btn.togglelabel-btn-on:active::after {
+  margin-left: -0.8em;
+}
+.togglelabel-btn:active::after {
+  padding-right: 0.8em;
+}
+.togglelabel-input {
+  display: none;
+}
+.togglelabel-btn.togglelabel-btn2-on {
+  background: #2d29ec;
+}
+
+.togglelable-topic {
+  font-size:20px;
+  font-weight:bold;
+  color:#4F575E;
+  padding-left:10px;
+  margin-top: -15px; 
+  vertical-align: text-top; 
+}
+
+.togglelable-label {
+  font-size: 12px;
+  font-weight: bold;
+  color: #ffffff;
+  /* padding-left: 10px; */
+  /* margin-top: -15px; */
+  /* vertical-align: text-top; */
+  position: absolute;
+  left: 55px;
+  margin-top: 7px;
+}
+.togglelable-label.togglelabel-label-on {
+  left: 35px;
+}
