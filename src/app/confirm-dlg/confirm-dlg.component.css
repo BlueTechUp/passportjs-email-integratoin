@@ -1,0 +1,56 @@
+.btn-close {
+    cursor: pointer;
+}
+.modal-close {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 3px 15px;
+}
+.modal-header {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.disconnect {
+    text-align: center;
+}
+.round-label {
+    background-color: #d1d4d5;
+    color: #777d83;
+    font-weight: 600;
+    margin-left: 10px;
+    padding: 0 10px;
+    border-radius: 20px;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+    -khtml-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+.round-label.connected {
+    background-color: #5bc739;
+    color: #fff;
+}
+.modal-footer {
+    justify-content: center;
+}
+.modal-footer .btn {
+    padding: 10px 20px;
+}
+.btn-connect {
+    background: #5bc739;
+    color: #fff !important;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+}
+.btn-disconnect {
+    background: #553344;
+    color: #fff !important;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+}

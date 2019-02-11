@@ -1,0 +1,20 @@
+<div class="modal-close">
+  <a class="btn-close" >X</a>
+</div>
+<div class="modal-header">
+<span> DISCONNECT</span>
+</div>
+
+<div class="modal-body">
+  <div class="form-group">
+    <span>Are you sure you want to disconnect {{mailProvider}} ? 
+      Disconnecting your {{mailProvider}} account will prevent Satern 
+      from automatically pushing subscriptions 
+      to your list globally in all your apps.
+    </span>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-disconnect" (click)="agree()" >YES</button>
+  <button class="btn btn-connect" (click)="disagree()" >NO</button>
+</div>
