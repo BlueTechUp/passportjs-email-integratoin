@@ -1,0 +1,6 @@
+<div class="togglelabel">
+	<input class="togglelabel-input" type="checkbox" />
+	<button class="togglelabel-btn {{className}}" [ngClass]="{'togglelabel-btn-on': on, 'togglelabel-btn-off': !on}" [attr.aria-expanded]="on" ></button>
+	<label class="togglelable-topic">{{topic}}</label>
+	<label class="togglelable-label" [ngClass]="{'togglelabel-label-on': on, 'togglelabel-label-off': !on}">{{label}}</label>
+</div>

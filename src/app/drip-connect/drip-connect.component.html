@@ -1,0 +1,93 @@
+<div class="modal-close">
+  <a class="btn-close" (click)="activeModal.close('Cross click')">X</a>
+</div>
+<div class="modal-header">
+  <img src="{{ env.myVarForImageURLS }}/icon-provider-drip.png" alt="provider logo">
+  <span class="round-label" [ngClass]="{'connected': isConnected == true}">{{ statusMessage }}</span>
+</div>
+<div class="disconnect" style="text-align: center" *ngIf="isConnected == true">
+  <button type="button" class="btn btn-link" (click)="logout()" >Disconnect Drip</button>
+</div>
+
+<div *ngIf="isConnected == true">
+  <ng-container *ngIf="isGlobalIntegrationSetting; then Global; else Popup"></ng-container>
+  <ng-template #Global>
+      <div class="modal-body">
+          <togglelabel [on]="true" [label]="integrationlabel" [topic]="integrationSettingMessage" (toggled)="switchG_C($event)"></togglelabel>
+          <p>Below are your integration settings based on your global settings. Changing these settings will only affect this campaign.</p>
+          <div class="form-group">
+              <label for="sel1">Account</label>
+              <select class="form-control" [(ngModel)] ="gselectedAccountListID">
+                  <option class="form-control" *ngFor="let mail of accountList" [value]="mail.id">{{mail.name}}</option>
+              </select>
+          </div>
+          <div *ngIf="gselectedAccountListID !='none'" class="form-group">
+              <label for="sel2">Campaign</label>
+              <select class="form-control" [(ngModel)] ="gselectedCampaignListID">
+                  <option class="form-control" *ngFor="let mail of campaignList" [value]="mail.id">{{mail.name}}</option>
+              </select>
+          </div>
+          <div class ="form-group">
+            <label for="gevent">Add an optional event to the subscriber</label>
+            <input type="text" [(ngModel)]="geventString" class="form-control" placeholder="Submitted a form"/>
+          </div>
+          <div class ="form-group">
+            <label for="gtag">Tag the subscriber (comma separated)</label>
+            <input type="text" [(ngModel)]="gtagString" class="form-control" placeholder="tag1,tag2,tag3" />
+          </div>
+          <p>Disable Double Opt-in</p>
+          <p>By default Drip requires subscribers to confirm their intent to subscribe.
+            Toggle this on to skip this requirement.
+          </p>
+          <toggle [on]="true" (toggled)="switchSubscribe($event)" ></toggle>
+      </div>
+  </ng-template>
+  <ng-template #Popup>
+      <div class="modal-body">
+          <togglelabel [on]="false" [label]="integrationlabel" [topic]="integrationSettingMessage"  (toggled)="switchG_C($event)" ></togglelabel>
+          <p>Enter your settings below to determine how it will handle the integration for this campaign</p>
+          <div class="form-group">
+              <label for="sel1">Account</label>
+              <select class="form-control" [(ngModel)] ="cselectedAccountListID">
+                  <option class="form-control" *ngFor="let mail of accountList" [value]="mail.id">{{mail.name}}</option>
+              </select>
+          </div>
+          <div *ngIf="gselectedAccountListID !='none'" class="form-group">
+              <label for="sel2">Campaign</label>
+              <select class="form-control" [(ngModel)] ="cselectedCampaignListID">
+                  <option class="form-control" *ngFor="let mail of campaignList" [value]="mail.id">{{mail.name}}</option>
+              </select>
+          </div>
+          <div class ="form-group">
+            <label for="cevent">Add an optional event to the subscriber</label>
+            <input type="text" [(ngModel)]="ceventString" class="form-control" placeholder="Submitted a form"/>
+          </div>
+          <div class ="form-group">
+            <label for="ctag">Tag the subscriber (comma separated)</label>
+            <input type="text" [(ngModel)]="ctagString" class="form-control" placeholder="tag1,tag2,tag3"/>
+          </div>
+          <p>Disable Double Opt-in</p>
+
+          <p>By default Drip requires subscribers to confirm their intent to subscribe.
+            Toggle this on to skip this requirement.
+          </p>
+          <toggle [on]="false" (toggled)="switchSubscribe($event)" ></toggle>
+      </div>
+  </ng-template>
+</div>
+
+<ng-container *ngIf="isConnected; then Connected; else Unconnected" ></ng-container>
+<ng-template #Connected>
+      <div class="modal-footer">
+        <button class="btn btn-connect" (click)="save()" >Save</button>
+        <button class="btn" (click)="testSubmit()">Test Submit</button>
+      </div>    
+</ng-template>
+<ng-template #Unconnected>
+    <div class="modal-body">
+        <p>Click the connect button and login to your Drip account to allow access to export to your list</p>
+        <div class="modal-footer">
+          <button class ="btn-connect" (click)="connect()">Connect</button>
+        </div>    
+    </div>
+</ng-template> 

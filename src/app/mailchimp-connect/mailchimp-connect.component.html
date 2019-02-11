@@ -1,0 +1,68 @@
+<div class="modal-close">
+  <a class="btn-close" (click)="activeModal.close('Cross click')">X</a>
+</div>
+<div class="modal-header">
+  <img src="{{ env.myVarForImageURLS }}/icon-provider-mailchimp.png" alt="provider logo">
+  <span class="round-label" [ngClass]="{'connected': isConnected == true}">{{ statusMessage }}</span>
+</div>
+<div class="disconnect" style="text-align: center" *ngIf="isConnected == true">
+    <button type="button" class="btn btn-link" (click)="logout()">Disconnect MailChimp</button>
+</div>
+
+<div *ngIf="isConnected == true">
+    <ng-container *ngIf="isGlobalIntegrationSetting; then Global; else Popup"></ng-container>
+    <ng-template #Global>
+        <div class="modal-body">
+            <togglelabel [on]="true" [label]="integrationlabel" [topic]="integrationSettingMessage" (toggled)="switchG_C($event)"></togglelabel>
+            <p>Below are your integration settings based on your global settings. Changing these settings will only affect this campaign.</p>
+            <br/>
+            <div class="form-group">
+                <label for="sel1">Mailing List</label>
+                <select class="form-control" [(ngModel)] ="gselectedMailListID"  >
+                    <option class="form-control" *ngFor="let mail of itemList" [value]="mail.id">{{mail.name}}</option>
+                </select>
+                <br>
+            </div>
+            <p>Disable Double Opt-in</p>
+            <p>By default MailChimp requires subscribers to confirm their intent to subscribe.
+              Toggle this on to skip this requirement.
+            </p>
+            <toggle [on]="true" (toggled)="switchSubscribe($event)" ></toggle>
+        </div>
+    </ng-template>
+    <ng-template #Popup>
+        <div class="modal-body">
+            <togglelabel [on]="false" [label]="integrationlabel" [topic]="integrationSettingMessage"  (toggled)="switchG_C($event)" ></togglelabel>
+            <p>Enter your settings below to determine how Sumo will handle the integration for this campaign</p>
+            <br/>
+            <div class="form-group">
+                <label for="sel1">Mailing List</label>
+                <select class="form-control" [(ngModel)] ="cselectedMailListID">
+                    <option class="form-control" *ngFor="let mail of itemList" [value]="mail.id">{{mail.name}}</option>
+                </select>
+            </div>
+            <p>Disable Double Opt-in</p>
+
+            <p>By default MailChimp requires subscribers to confirm their intent to subscribe.
+              Toggle this on to skip this requirement.
+            </p>
+            <toggle [on]="false" (toggled)="switchSubscribe($event)" ></toggle>
+        </div>
+    </ng-template>
+</div>
+
+<ng-container *ngIf="isConnected; then Connected; else Unconnected" ></ng-container>
+<ng-template #Connected>
+      <div class="modal-footer">
+        <button class="btn btn-connect" (click)="save()" >Save</button>
+        <button class="btn"  (click)="testSubmit()">Test Submit</button>
+      </div>    
+</ng-template>
+<ng-template #Unconnected>
+    <div class="modal-body">
+        <p>Click the connect button and login to your MailChimp account to allow access to export to your list</p>
+        <div class="modal-footer">
+          <button class ="btn-connect" (click)="connect()">Connect</button>
+        </div>    
+    </div>
+</ng-template> 

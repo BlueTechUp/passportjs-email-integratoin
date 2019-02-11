@@ -1,0 +1,28 @@
+<div class="modal-close">
+  <a class="btn-close" (click)="activeModal.close('Cross click')">X</a>
+</div>
+<div class="modal-header">
+  <img src="{{ env.myVarForImageURLS }}/icon-provider-zapier.png" alt="provider logo">
+  <span class="round-label" [ngClass]="{'connected': isConnected == true}">{{ statusMessage }}</span>
+</div>
+<div class="disconnect" style="text-align: center" *ngIf="isConnected == true">
+  <button type="button" class="btn btn-link" (click)="logout()" >Disconnect Zapier</button>
+</div>
+
+<!--nv-editable-table [table-headers]="tableHeaders" [table-rows]="tableRows" ></nv-editable-table-->
+
+<ng-container *ngIf="isConnected; then Connected; else Unconnected" ></ng-container>
+<ng-template #Connected>
+      <div class="modal-footer">
+        <button class="btn btn-connect" (click)="save()" >Save</button>
+        <!--button class="btn" (click)="testSubmit()">Test Submit</button-->
+      </div>    
+</ng-template>
+<ng-template #Unconnected>
+    <div class="modal-body">
+        <p>Click the connect button and login to your Zapier account to allow access to export to your list</p>
+        <div class="modal-footer">
+          <button class ="btn-connect" (click)="connect()">Connect</button>
+        </div>    
+    </div>
+</ng-template> 

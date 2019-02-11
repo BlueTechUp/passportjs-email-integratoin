@@ -1,0 +1,55 @@
+<div class="modal-close">
+  <a class="btn-close" (click)="activeModal.close('Cross click')">X</a>
+</div>
+<div class="modal-header">
+  <img src="{{ env.myVarForImageURLS }}/icon-provider-constant-contact.png" alt="provider logo">
+  <span class="round-label" [ngClass]="{'connected': isConnected == true}">{{ statusMessage }}</span>
+</div>
+<div class="disconnect" style="text-align: center" *ngIf="isConnected == true">
+  <button type="button" class="btn btn-link" (click)="logout()">Disconnect Constant Contact</button>
+</div>
+<div *ngIf="isConnected == true">
+  <ng-container *ngIf="isGlobalIntegrationSetting; then Global; else Popup"></ng-container>
+  <ng-template #Global>
+      <div class="modal-body">
+          <togglelabel [on]="true" [label]="integrationlabel" [topic]="integrationSettingMessage" (toggled)="switchG_C($event)"></togglelabel>
+          <p>Below are your integration settings based on your global settings. Changing these settings will only affect this campaign.</p>
+          <br/>
+          <div class="form-group">
+              <label for="sel1">Mailing List</label>
+              <select class="form-control" [(ngModel)] ="gselectedMailListID">
+                  <option class="form-control" *ngFor="let mail of itemList" [value]="mail.id">{{mail.name}}</option>
+              </select>
+              <br>
+          </div>
+      </div>
+  </ng-template>
+  <ng-template #Popup>
+      <div class="modal-body">
+          <togglelabel [on]="false" [label]="integrationlabel" [topic]="integrationSettingMessage"  (toggled)="switchG_C($event)" ></togglelabel>
+          <p>Enter your settings below to determine how Sumo will handle the integration for this campaign</p>
+          <br/>
+          <div class="form-group">
+              <label for="sel1">Mailing List</label>
+              <select class="form-control" [(ngModel)] ="cselectedMailListID">
+                  <option class="form-control" *ngFor="let mail of itemList" [value]="mail.id">{{mail.name}}</option>
+              </select>
+          </div>
+      </div>
+  </ng-template>
+</div>
+<ng-container *ngIf="isConnected; then Connected; else Unconnected" ></ng-container>
+<ng-template #Connected>
+      <div class="modal-footer">
+        <button class="btn btn-connect" (click)="save()" >Save</button>
+        <button class="btn" (click)="submitTest()">Test Submit</button>
+      </div>    
+</ng-template>
+<ng-template #Unconnected>
+    <div class="modal-body">
+        <p>Click the connect button and login to your Constant Contact account to allow access to export to your list</p>
+      <div class="modal-footer">
+          <button class ="btn-connect" (click)="connect()">Connect</button>
+      </div>    
+    </div>
+</ng-template> 
