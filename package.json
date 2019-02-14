@@ -53,6 +53,7 @@
     "passport-campaignmonitor": "0.0.4",
     "passport-constantcontact": "0.0.1",
     "passport-facebook": "^2.1.1",
+    "passport-google-auth": "^1.0.2",
     "passport-local": "^1.0.0",
     "passport-mailchimp": "^1.1.0",
     "passport-oauth1": "^1.1.0",

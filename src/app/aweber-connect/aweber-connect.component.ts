@@ -105,8 +105,23 @@ export class AweberConnectComponent implements OnInit {
   }
 
   public connect(){
+    // var vmPop = this;
+    // popupTools.popup('/aweber/authorize', "aweber Connect", {}, function (err, user) {
+    //   if (err) {
+    //     vmPop.isConnected = false;
+    //     vmPop.statusMessage = 'Not Connected';
+    //   }
+    //   else{
+    //     vmPop.isConnected = true;
+    //     vmPop.statusMessage = 'Connected';
+    //     vmPop.userInfo = user.aweber;
+    //     console.log(vmPop.userInfo);
+    //     vmPop.getSaveData();
+    //   }
+    // });
+
     var vmPop = this;
-    popupTools.popup('/aweber/authorize', "aweber Connect", {}, function (err, user) {
+    popupTools.popup('/google/authorize', "google Connect", {}, function (err, user) {
       if (err) {
         vmPop.isConnected = false;
         vmPop.statusMessage = 'Not Connected';
@@ -116,7 +131,7 @@ export class AweberConnectComponent implements OnInit {
         vmPop.statusMessage = 'Connected';
         vmPop.userInfo = user.aweber;
         console.log(vmPop.userInfo);
-        vmPop.getSaveData();
+       // vmPop.getSaveData();
       }
     });
   }

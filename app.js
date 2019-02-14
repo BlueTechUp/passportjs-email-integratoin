@@ -20,7 +20,11 @@ const express = require('express'),
  ConstantContactStrategy = passportConstantContract.Strategy,
  CampaignMonitorStrategy = passportCampaignMonitor.Strategy,
  OAuth2Strategy = passportOAuth2.Strategy,
+ passportGoogle = require('passport-google-auth'),
+ GoogleStrategy = passportGoogle.Strategy,
  ConstantContact = require('node-constantcontact');
+
+ //var GoogleStrategy = require('passport-google-auth').OAuth2Strategy;
 
  var SibApiV3Sdk = require('sib-api-v3-sdk');
  var defaultClient = SibApiV3Sdk.ApiClient.instance;
@@ -104,6 +108,12 @@ var nameSchema = new mongoose.Schema({
     apikey: String,
     connected: Boolean
   },
+  google:{
+    id: String,
+    token:String,
+    name:String,
+    email:String
+  },
   contactually:{
     id:String,
     connected:Boolean
@@ -160,7 +170,13 @@ var mailSchema = new mongoose.Schema({
     id: String, 
     apikey:String,
     glist_id:String,            // form id
-    clist_id:String}
+    clist_id:String},
+    google:{
+      id: String,
+      token:String,
+      name:String,
+      email:String
+    }
 });
 var savedInfo = mongoose.model("SavedInfo", mailSchema);
 
@@ -276,6 +292,7 @@ passport.use('drip', new OAuth2Strategy({
       }
     });
   }
+
 ));
 app.post('/drip/authorize', passport.authenticate('drip'));
 app.get('/drip/callback', passport.authenticate('drip', { failureRedirect: 'http://127.0.0.1:4000/drip' }),
@@ -688,12 +705,59 @@ app.post('/mailchimp/mailchimpSubmit', function (req, res){
     res.send({ success: false, data:"unknown error"});
   }
 });
-app.get('/aweber/authorize',  passport.authenticate('aweber'));
+
+/*****************************************google **************************************** */
+
+app.get('/google/authorize',  passport.authenticate('google', {scope : ['profile', 'email'] }));
+passport.use(new GoogleStrategy({
+  clientId        : "329043262807-4qs269c1k82scu4mm329l10kcm0kg8op.apps.googleusercontent.com",
+  clientSecret    : "qOSvnINXRBRysTjo2XBgVl91",
+  callbackURL     : "http://127.0.0.1:4000/google/callback",
+
+},
+function(token, refreshToken, profile, done) {
+
+  // make the code asynchronous
+  // User.findOne won't fire until we have all our data back from Google
+  console.log("");
+
+    var searchQuery = {
+      'google.id': profile.id
+    }
+    var updates = {
+      'google.token': token,
+      'google.name':profile.displayName,
+      'google.email':profile.emails[0].value
+    };
+    var options = {
+      upsert: true,
+      new: true
+    };
+        // update the user if s/he exists or add a new user
+    User.findOneAndUpdate(searchQuery, updates, options, function(err, user) {
+      if(err) {
+        return done(err);
+      } 
+      else {
+        return done(null, user);
+      }
+    })
+  }
+));
+
+app.get('/google/callback',passport.authenticate('google', {successRedirect : '/profile',failureRedirect : '/'},
+  function(req, res) {
+    // Successul authentication, redirect home.
+    console.log(req);
+    res.set({ "content-type": "text/html; charset=utf-8" });
+    res.end(popupTools.popupResponse(req.user));
+  }
+));
 
 
 //****************************************************** AWeber ********************************************************
 
-
+app.get('/aweber/authorize',  passport.authenticate('aweber'));
 passport.use(new AweberStrategy({
   consumerKey: aweberConsumerKey,
   consumerSecret: aweberConsumerSecret,
