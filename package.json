@@ -44,7 +44,6 @@
     "mailerlite-nodejs-api": "^1.0.1",
     "material": "^0.3.0",
     "mongoose": "^5.3.15",
-    "ng-editable-table": "^0.3.15",
     "ngx-bootstrap": "^3.1.2",
     "node-aweber": "^1.0.9",
     "node-constantcontact": "^1.0.0",
