@@ -148,10 +148,9 @@ export class MailchimpConnectComponent implements OnInit {
         console.log("saved failed");
     });
   }
-  // submit formdata with json format
+
   public testSubmit(){
    
-    //this.mailService.mailchimpSubmit(this.userInfo,"","").subscribe(data=>{})
     this.dataForTest = {};
     this.dataForTest = {
       "mailProvider": "mailchimp",
